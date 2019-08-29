@@ -24,7 +24,7 @@ git clone git@github.com:penguab/RealSVsim.git
 
 ## Usage
 
-A reference genome sequence (fasta file format) is required as an input. Users can provide their own real variant events (bed file format), or provide the number of total variants to be simulated. Users can also provide both real events and total variant numbers. If the total variant number is smaller than the number of real events, RealSVsim will randomly choose real events to match the total variant number. If the total variant number is larger than the number of real events, RealSVsim will automatically generate random events to match the total variant number.
+A reference genome sequence (fasta file format) is required as an input. Users can provide their own real variant events (bed file format), or provide the number of total variants to be simulated. Users can also provide both real events and total variant numbers. If the total variant number is smaller than the number of real events, RealSVsim will randomly choose real events to match the total variant number. If the total variant number is larger than the number of real events, RealSVsim will automatically generate random events to match the total variant number. All the variant events are randomly assigned to each haplotype (heterozygous) or both haplotypes (homozygous).
 ```
 python3 RealSVsim.py -b SNP_INDEL_SV.bed(optional) -g genome.fa
 
@@ -37,7 +37,13 @@ python3 RealSVsim.py -b SNP_INDEL_SV.bed(optional) -g genome.fa
                 -p translocation pair (How many chromosome pairs are formed)
                 -n translocation number (How many translocation events occur within each chromosome pair)
 ```
-
+The results contains four files:
+```
+genome_masked.bed: Blacklist of the input genome containing NNNN regions.
+genome.fa.hap.vcf: The simulated variants in vcf format
+genome.fa.hap1.fa: Haplotype1 genome sequence
+genome.fa.hap2.fa: Haplotype2 genome sequence
+```
 Example 1. Real SV events spike-in using GIAB HG002 dataset.
 ```
 #download real SV events from GIAB
@@ -51,7 +57,7 @@ perl -lane '@a=split //,$F[3];@b=split //,$F[4];next unless $F[6]eq"PASS" and ($
 python3 RealSVsim.py -b HG002_SVs_Tier1_v0.6.SV.bed -g genome.fa
 ```
 
-Example 2. Random SV events simulation.
+Example 2. Random SV events simulation. It simulates 5000 deletions, 5000 insertions, 500 duplications, 200 inversions and 60 translocations. For the 60 translocation events, 30 of them are located on one haplotype and the other 30 events are located on the other haplotype. Each haplotype genome involves 10 chromosome pairs with 3 translocations occuring in each pair.
 ```
 python3 RealSVsim.py -g genome.fa -d 5000 -i 5000 -u 500 -v 200 -p 10 -n 3
 ```
