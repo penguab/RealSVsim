@@ -51,11 +51,12 @@ perl -lane '@a=split //,$F[3];@b=split //,$F[4];next unless $F[6]eq"PASS" and ($
 python3 RealSVsim.py -b HG002_SVs_Tier1_v0.6.SV.bed -g genome.fa
 ```
 
-Example 1. Random SV events simulation.
+Example 2. Random SV events simulation.
 ```
 python3 RealSVsim.py -g genome.fa -d 5000 -i 5000 -u 500 -v 200 -p 10 -n 3
 ```
 
 ## News
+8/29/2019 First version released.
 
 
